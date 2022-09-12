@@ -1,0 +1,4 @@
+django==1.10.2
+gunicorn==19.6.0
+sorl-thumbnail==12.3
+ptpython==0.35

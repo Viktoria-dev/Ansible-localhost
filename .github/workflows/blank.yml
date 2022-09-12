@@ -1,0 +1,20 @@
+name: Run ansible playbook
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]  
+    
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ansible
+        uses: dawidd6/action-ansible-playbook@v2.5.0
+        with:
+          playbook: playbook.yml
+          directory: ansible
+

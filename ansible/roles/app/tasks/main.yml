@@ -1,0 +1,31 @@
+---
+- name: print hostname
+  ansible.builtin.debug:
+    msg: "{{ inventory_hostname }}"
+- name: update cache
+  apt: update_cache=yes 
+- name: Create app folder
+  file:
+    name: /opt/python_venvs
+    state: directory
+    recurse: yes
+- name: Install and upgrade pip
+  pip: 
+    name: pip
+    extra_args: --upgrade
+    executable: pip3
+- name: install Python tools
+  apt:
+    pkg:
+      - python3.8-venv 
+      - python3-setuptools
+      - python3-pip
+      - python3-pkg-resources
+- name: Create and install virtualenv 
+  pip:
+   requirements: "{{ item }}"
+   virtualenv: "{{ remote_server_path }}/{{ item | basename | splitext | first }}"
+   virtualenv_command: python3 -m venv 
+  with_fileglob: "*.txt"
+  loop_control: 
+    label: "{{ item | basename | splitext | first }}"
